@@ -1,0 +1,80 @@
+# Machine-specific memory (fill in locally, never commit)
+personal-memory.md
+
+# Short-term memory (machine-local timestamps — noise on multi-device sync)
+quality_reports/memory/short-term.md
+
+# Obsidian vault config (personal — themes, hotkeys, workspace)
+literature/.obsidian/
+
+# Claude Code local settings (machine-specific permissions)
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+env/
+
+# R
+.Rproj.user/
+*.Rproj
+.Rhistory
+.RData
+
+# Stata
+*.dta~
+*.smcl
+
+# Julia
+*.jl.cov
+*.jl.mem
+Manifest.toml
+.julia/
+
+# Marp
+*.marp.pdf
+
+# LaTeX auxiliaries
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.nav
+*.snm
+*.vrb
+
+# Data and large outputs (add back selectively)
+*.dta
+*.csv
+*.parquet
+*.feather
+*.h5
+
+# Figures and compiled output (add back selectively)
+*.png
+*.jpg
+*.pdf
+*.eps
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# IDE
+.vscode/
+.idea/
+
+# Temp / scratch
+_tmp_*
+*.tmp.*
+applied theory workflow.md

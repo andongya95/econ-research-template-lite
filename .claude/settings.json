@@ -1,0 +1,155 @@
+{
+  "plansDirectory": "quality_reports/plans",
+  "permissions": {
+    "allow": [
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(git branch*)",
+      "Bash(git add*)",
+      "Bash(git commit*)",
+      "Bash(git push*)",
+      "Bash(git pull*)",
+      "Bash(git stash*)",
+      "Bash(gh pr*)",
+      "Bash(gh repo*)",
+      "Bash(python*)",
+      "Bash(python3*)",
+      "Bash(pip*)",
+      "Bash(pytest*)",
+      "Bash(pdflatex*)",
+      "Bash(xelatex*)",
+      "Bash(latexmk*)",
+      "Bash(bibtex*)",
+      "Bash(Rscript*)",
+      "Bash(ls*)",
+      "Bash(find*)",
+      "Bash(wc*)",
+      "Bash(mkdir*)",
+      "Bash(chmod*)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:arxiv.org)",
+      "WebFetch(domain:nber.org)",
+      "WebFetch(domain:semanticscholar.org)",
+      "WebFetch(domain:papers.ssrn.com)",
+      "WebFetch(domain:ideas.repec.org)"
+    ]
+  },
+  "hooks": {
+    "Notification": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if command -v osascript &>/dev/null; then bash \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.sh\"; else pwsh -NonInteractive -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.ps1\" 2>/dev/null || powershell -NonInteractive -File \"$CLAUDE_PROJECT_DIR/.claude/hooks/notify.ps1\" 2>/dev/null; fi",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/plan-path-guard.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Read|Glob|Grep|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/team-memory-isolation.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/pre-compact.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/post-compact-restore.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/session-start-context.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Bash|Task|Read|Glob|Grep|Write|Edit|WebFetch|WebSearch",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/context-monitor.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/verify-reminder.py\"",
+            "timeout": 5
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/commit-logger.py\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/stop-checkpoint.py\"",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "$(command -v python || command -v python3) \"$CLAUDE_PROJECT_DIR/.claude/hooks/sync-auto-memory.py\"",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

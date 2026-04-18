@@ -1,0 +1,13 @@
+# Enforce LF line endings for all text files across all platforms.
+# Prevents CRLF/LF churn when syncing via Dropbox between Windows and macOS/Linux.
+* text=auto eol=lf
+
+# Explicitly binary — never touch line endings
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.pdf binary
+*.zip binary
+*.gz binary
+*.tar binary
